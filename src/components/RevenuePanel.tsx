@@ -40,6 +40,18 @@ export function RevenuePanel({
           <span className="seccount">{revenue.count}</span>
         </span>
         <span className="secline" />
+        {/* Both controls live on the header rule, so the panel itself stays just
+            the figure. The count is already on the chip beside the title, which is
+            why this says "Entries" rather than repeating the number. */}
+        {revenue.count ? (
+          <button
+            className="secact"
+            onClick={() => setShowList((v) => !v)}
+            aria-expanded={showList}
+          >
+            {showList ? "Hide" : "Entries"}
+          </button>
+        ) : null}
         <button className="secact" onClick={() => setAdding(true)}>
           + Log revenue
         </button>
@@ -61,18 +73,6 @@ export function RevenuePanel({
             </div>
           ) : null}
         </div>
-
-        {revenue.count ? (
-          <div className="revfold">
-            <button
-              className="revfoldbtn"
-              onClick={() => setShowList((v) => !v)}
-              aria-expanded={showList}
-            >
-              {showList ? "Hide entries" : `${revenue.count} entries`}
-            </button>
-          </div>
-        ) : null}
 
         {revenue.count && showList ? (
           <div className="revlist">
