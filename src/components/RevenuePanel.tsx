@@ -7,23 +7,18 @@ import { formatMoney, toDateInput } from "@/lib/money";
 import type { RevenueSummary } from "@/lib/revenue";
 
 import { Modal } from "./Modal";
-import {
-  IconAvg,
-  IconClients,
-  IconDeals,
-  IconMonth,
-  IconPeak,
-  IconPlus,
-  IconTrash,
-} from "./icons";
+import { IconPlus, IconTrash } from "./icons";
 
 /**
  * What the agency has generated.
  *
  * One figure, because that is the question this answers. No chart: a single total
  * is not a shape, and twelve bars where eleven are empty said less than the number
- * itself. The supporting stats are a quiet row under it, and the entry list stays
- * folded away until you go looking for it.
+ * itself.
+ *
+ * Under it, the same measure over narrowing time windows — the row reads as one
+ * thought, "and how much of that was recently", rather than six unrelated stats.
+ * The entry list stays folded away until you go looking for it.
  *
  * Every number wears an ink token — nothing here is coloured to mean something.
  */
@@ -57,27 +52,12 @@ export function RevenuePanel({
 
           {revenue.count ? (
             <div className="revstats">
-              <span className="revstat">
-                <IconDeals />
-                <b>{revenue.count}</b> {revenue.count === 1 ? "Deal" : "Deals"}
-              </span>
-              <span className="revstat">
-                <IconClients />
-                <b>{revenue.clientCount}</b>{" "}
-                {revenue.clientCount === 1 ? "Client" : "Clients"}
-              </span>
-              <span className="revstat">
-                <IconAvg />
-                <b>{formatMoney(revenue.averageCents)}</b> avg
-              </span>
-              <span className="revstat">
-                <IconPeak />
-                <b>{formatMoney(revenue.biggestCents)}</b> biggest
-              </span>
-              <span className="revstat">
-                <IconMonth />
-                <b>{formatMoney(revenue.thisMonthCents)}</b> this month
-              </span>
+              {revenue.windows.map((w) => (
+                <span className="revstat" key={w.key}>
+                  <b>{formatMoney(w.cents)}</b>
+                  {w.label}
+                </span>
+              ))}
             </div>
           ) : null}
         </div>
