@@ -34,27 +34,29 @@
     --radius-sm:14px;
     --radius-xs:10px;
 
+    /* Surfaces are the Sales Rep Hub's own steps — a warm neutral, not a blue-grey.
+       One flat colour, no gradient and no glow: this is a launcher you look past,
+       not a landing page. */
     color-scheme:light;
-    --bg-grad1:#f4f6fa;
-    --bg-grad2:#e9edf4;
-    --card:#ffffff;
-    --panel:#ffffff;
+    --bg:#f7f7f5;
+    --card:#fcfcfb;
+    --panel:#fcfcfb;
     --panel-solid:#ffffff;
-    --panel-border:rgba(17,24,39,.07);
-    --panel-border-hover:rgba(17,24,39,.16);
-    --chip:rgba(17,24,39,.045);
-    --chip-hover:rgba(17,24,39,.08);
-    --text:#0f1729;
-    --text-dim:#5b6576;
-    --text-faint:#98a1b2;
+    --panel-border:#e5e4e0;
+    --panel-border-hover:#d3d2cc;
+    --chip:rgba(11,11,11,.045);
+    --chip-hover:rgba(11,11,11,.08);
+    --text:#0b0b0b;
+    --text-dim:#52514e;
+    --text-faint:#83827c;
     --input-bg:#ffffff;
-    --input-border:rgba(17,24,39,.12);
-    --divider:rgba(17,24,39,.07);
-    --track:rgba(17,24,39,.07);
-    --shadow-sm:0 1px 2px rgba(16,24,40,.06);
-    --shadow:0 1px 3px rgba(16,24,40,.05), 0 12px 26px -14px rgba(16,24,40,.16);
-    --shadow-lg:0 2px 8px rgba(16,24,40,.05), 0 26px 50px -24px rgba(16,24,40,.26);
-    --scrim:rgba(15,23,41,.32);
+    --input-border:#d3d2cc;
+    --divider:#e5e4e0;
+    --track:rgba(11,11,11,.07);
+    --shadow-sm:0 1px 2px rgba(20,20,18,.05);
+    --shadow:0 1px 3px rgba(20,20,18,.05), 0 12px 26px -14px rgba(20,20,18,.14);
+    --shadow-lg:0 2px 8px rgba(20,20,18,.05), 0 26px 50px -24px rgba(20,20,18,.22);
+    --scrim:rgba(24,24,22,.32);
   }
 
   /* Both selectors, both directions: the in-page toggle stamps data-theme on
@@ -65,36 +67,36 @@
   @media (prefers-color-scheme:dark){
     :root:where(:not([data-theme="light"])){
       color-scheme:dark;
-      --bg-grad1:#0d1524; --bg-grad2:#070a12;
-      --card:#111a2b; --panel:#111a2b; --panel-solid:#141f33;
-      --panel-border:rgba(148,163,184,.13); --panel-border-hover:rgba(148,163,184,.30);
-      --chip:rgba(148,163,184,.10); --chip-hover:rgba(148,163,184,.18);
-      --text:#e8eefc; --text-dim:#9aa7bd; --text-faint:#64708a;
-      --input-bg:rgba(255,255,255,.03); --input-border:rgba(148,163,184,.20);
-      --divider:rgba(148,163,184,.10);
-      --track:rgba(148,163,184,.14);
-      --brand-neon:#56a2ff; --brand-glow:rgba(56,140,255,.45); --star:#ffcb47;
+      --bg:#121211;
+      --card:#1a1a19; --panel:#1a1a19; --panel-solid:#1f1f1e;
+      --panel-border:#2e2e2b; --panel-border-hover:#46453f;
+      --chip:rgba(255,255,255,.06); --chip-hover:rgba(255,255,255,.11);
+      --text:#ffffff; --text-dim:#c3c2b7; --text-faint:#8e8d84;
+      --input-bg:rgba(255,255,255,.03); --input-border:#46453f;
+      --divider:#2e2e2b;
+      --track:rgba(255,255,255,.09);
+      --brand-neon:#5b9bf5; --brand-glow:rgba(91,155,245,.40); --star:#ffcb47;
       --shadow-sm:0 1px 2px rgba(0,0,0,.4);
       --shadow:0 2px 6px rgba(0,0,0,.35), 0 18px 40px -22px rgba(0,0,0,.7);
       --shadow-lg:0 2px 8px rgba(0,0,0,.4), 0 30px 60px -24px rgba(0,0,0,.8);
-      --scrim:rgba(3,6,14,.62);
+      --scrim:rgba(6,6,5,.62);
     }
   }
   :root[data-theme="dark"]{
     color-scheme:dark;
-    --bg-grad1:#0d1524; --bg-grad2:#070a12;
-    --card:#111a2b; --panel:#111a2b; --panel-solid:#141f33;
-    --panel-border:rgba(148,163,184,.13); --panel-border-hover:rgba(148,163,184,.30);
-    --chip:rgba(148,163,184,.10); --chip-hover:rgba(148,163,184,.18);
-    --text:#e8eefc; --text-dim:#9aa7bd; --text-faint:#64708a;
-    --input-bg:rgba(255,255,255,.03); --input-border:rgba(148,163,184,.20);
-    --divider:rgba(148,163,184,.10);
-    --track:rgba(148,163,184,.14);
-    --brand-neon:#56a2ff; --brand-glow:rgba(56,140,255,.45); --star:#ffcb47;
+    --bg:#121211;
+    --card:#1a1a19; --panel:#1a1a19; --panel-solid:#1f1f1e;
+    --panel-border:#2e2e2b; --panel-border-hover:#46453f;
+    --chip:rgba(255,255,255,.06); --chip-hover:rgba(255,255,255,.11);
+    --text:#ffffff; --text-dim:#c3c2b7; --text-faint:#8e8d84;
+    --input-bg:rgba(255,255,255,.03); --input-border:#46453f;
+    --divider:#2e2e2b;
+    --track:rgba(255,255,255,.09);
+    --brand-neon:#5b9bf5; --brand-glow:rgba(91,155,245,.40); --star:#ffcb47;
     --shadow-sm:0 1px 2px rgba(0,0,0,.4);
     --shadow:0 2px 6px rgba(0,0,0,.35), 0 18px 40px -22px rgba(0,0,0,.7);
     --shadow-lg:0 2px 8px rgba(0,0,0,.4), 0 30px 60px -24px rgba(0,0,0,.8);
-    --scrim:rgba(3,6,14,.62);
+    --scrim:rgba(6,6,5,.62);
   }
 
   /* Accent per category. Adjacent hues stay distinguishable in both themes;
@@ -124,10 +126,7 @@
     min-height:100vh;
     font-family:var(--font-body);
     color:var(--text);
-    background:
-      radial-gradient(1100px 620px at 78% -12%, var(--brand-glow), transparent 62%),
-      linear-gradient(168deg, var(--bg-grad1), var(--bg-grad2));
-    background-attachment:fixed;
+    background:var(--bg);
     -webkit-font-smoothing:antialiased;
     font-size:15px;
     line-height:1.5;
@@ -146,8 +145,9 @@
     position:sticky; top:0; z-index:40;
     display:flex; align-items:center; gap:14px;
     padding:14px 0 13px;
-    background:linear-gradient(to bottom, var(--bg-grad1) 62%, transparent);
-    backdrop-filter:blur(10px);
+    /* Solid, matching the page. A fade needs a gradient to fade *to*, and the
+       point here is that there is only one colour. */
+    background:var(--bg);
   }
   .brandmark{ display:flex; align-items:center; gap:11px; min-width:0 }
   .logo{ height:19px; width:auto; display:block }
@@ -159,9 +159,12 @@
     :root:where(:not([data-theme="light"])) .logo-dark{ display:block }
   }
   .brandrule{ width:1px; height:18px; background:var(--divider) }
+  /* No overflow clipping: Bootzy's ascenders sit above the normal line box, and a
+     hidden overflow shaved the top off "Hub". It's one short word — there was
+     nothing for the ellipsis to do anyway. */
   .brandname{
     font-family:var(--font-head); font-size:16px; letter-spacing:.01em;
-    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    white-space:nowrap; line-height:1.35; padding-block:1px;
   }
   .spacer{ flex:1 }
 
@@ -488,7 +491,7 @@
   .toast{
     position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(12px);
     z-index:120; padding:10px 17px; border-radius:12px;
-    background:var(--text); color:var(--bg-grad1); font-size:13px; font-weight:550;
+    background:var(--text); color:var(--bg); font-size:13px; font-weight:550;
     box-shadow:var(--shadow-lg); opacity:0; pointer-events:none;
     transition:opacity .18s, transform .18s;
   }
@@ -497,46 +500,48 @@
   .sr{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0 }
 
   /* ---------------- revenue ----------------
-     Numbers, not a chart, carry this section: "how much have we generated" is one
-     figure. Every value wears an ink token — colour here identifies the month bars
-     only, and never stands in for a label. Digits are tabular so the column of
-     amounts lines up on the decimal. */
+     One figure carries this, so it gets the size and the centre line and nothing
+     competes with it. The stat row underneath is deliberately quiet: small, ink
+     coloured, separated by middots rather than boxed into tiles. Digits are
+     tabular so the entry list lines up on the decimal. */
   .revpanel{
     border-radius:var(--radius); border:1px solid var(--panel-border);
     background:var(--card); box-shadow:var(--shadow-sm); overflow:hidden;
   }
-  .revtop{ display:flex; flex-wrap:wrap; gap:22px 40px; padding:20px 22px 18px }
-  .revhero{ min-width:190px }
-  .revlabel{
-    font-size:11px; font-weight:650; letter-spacing:.09em; text-transform:uppercase;
-    color:var(--text-faint);
-  }
+  .revhero{ padding:38px 22px 30px; text-align:center }
   .revbig{
     font-family:var(--font-head); font-weight:400;
-    font-size:clamp(30px,4.4vw,44px); line-height:1.05; margin-top:6px;
-    letter-spacing:-.01em; font-variant-numeric:tabular-nums;
+    font-size:clamp(38px,7vw,62px); line-height:1;
+    letter-spacing:-.015em; font-variant-numeric:tabular-nums;
   }
-  .revtiles{ display:flex; flex-wrap:wrap; gap:12px 34px; align-items:flex-end; flex:1 }
-  .revtile .v{
-    font-size:20px; font-weight:650; margin-top:5px;
-    font-variant-numeric:tabular-nums; letter-spacing:-.01em;
-  }
-  .revtile .sub{ font-size:11.5px; color:var(--text-faint); margin-top:2px }
+  .revcap{ font-size:13px; color:var(--text-dim); margin-top:10px }
 
-  .revmonths{
-    display:flex; align-items:flex-end; gap:2px;
-    padding:4px 22px 16px; height:96px;
+  .revstats{
+    display:flex; flex-wrap:wrap; justify-content:center; align-items:center;
+    gap:4px 0; margin-top:22px;
   }
-  .mbar{ flex:1; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; gap:5px; height:100% }
-  /* 4px rounded top, square foot: the bar is anchored to its baseline. */
-  .mbar i{
-    display:block; width:100%; max-width:34px; min-height:2px;
-    background:var(--brand); border-radius:4px 4px 0 0;
-    transition:opacity .13s;
+  .revstat{
+    position:relative; display:inline-flex; align-items:center; gap:6px;
+    padding:2px 15px; font-size:12.5px; color:var(--text-dim); white-space:nowrap;
   }
-  .mbar.zero i{ background:var(--track); }
-  .mbar:hover i{ opacity:.78 }
-  .mbar span{ font-size:9.5px; color:var(--text-faint); font-variant-numeric:tabular-nums }
+  /* Middot separators drawn between items, so wrapping never leaves a trailing dot. */
+  .revstat + .revstat::before{
+    content:"·"; position:absolute; left:-2px; color:var(--text-faint);
+  }
+  .revstat svg{ width:14px; height:14px; flex:none; color:var(--text-faint) }
+  .revstat b{ font-weight:650; color:var(--text); font-variant-numeric:tabular-nums }
+
+  .revfold{ display:flex; justify-content:center; padding:0 0 16px }
+  .revfoldbtn{
+    font-size:12px; color:var(--text-faint);
+    padding:4px 12px; border-radius:8px;
+    transition:color .13s, background .13s;
+  }
+  .revfoldbtn:hover{ color:var(--text); background:var(--chip) }
+
+  .revempty{ padding:0 22px 26px; text-align:center; font-size:13px; color:var(--text-faint) }
+  .revempty button{ color:var(--brand); font-weight:600 }
+  .revempty button:hover{ text-decoration:underline }
 
   .revlist{ border-top:1px solid var(--divider) }
   .revrow{
@@ -557,7 +562,7 @@
   .revrow:hover .tool, .revrow .tool:focus-visible{ opacity:1 }
   @media (max-width:560px){
     .revrow .when{ display:none }
-    .revtop{ gap:18px 24px }
+    .revstat{ padding:2px 11px; font-size:12px }
   }
 
   /* ---------------- auth pages ---------------- */

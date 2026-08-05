@@ -125,3 +125,42 @@ export const IconCash = (p: P) => (
     <circle cx="12" cy="12" r="2.6" />
   </svg>
 );
+
+/* The revenue stat row. Thin, uniform, and purely a marker beside each figure. */
+
+export const IconDeals = (p: P) => (
+  <svg {...base} strokeWidth={1.7} {...p}>
+    <path d="M6 3.5h12v17l-2.4-1.6-2.4 1.6-2.4-1.6-2.4 1.6L6 20.5Z" />
+    <path d="M9.5 8.5h5M9.5 12.5h5" />
+  </svg>
+);
+
+export const IconClients = (p: P) => (
+  <svg {...base} strokeWidth={1.7} {...p}>
+    <circle cx="9" cy="8" r="3.2" />
+    <path d="M3.5 19.5a5.5 5.5 0 0 1 11 0" />
+    <path d="M16 5.2a3.2 3.2 0 0 1 0 5.6M17.5 14.6a5.5 5.5 0 0 1 3 4.9" />
+  </svg>
+);
+
+export const IconAvg = (p: P) => (
+  <svg {...base} strokeWidth={1.7} {...p}>
+    <path d="M5 19 19 5" />
+    <circle cx="7.5" cy="7.5" r="2.5" />
+    <circle cx="16.5" cy="16.5" r="2.5" />
+  </svg>
+);
+
+export const IconPeak = (p: P) => (
+  <svg {...base} strokeWidth={1.7} {...p}>
+    <path d="M3 17.5 9 11l4 4 8-8" />
+    <path d="M15 3h6v6" />
+  </svg>
+);
+
+export const IconMonth = (p: P) => (
+  <svg {...base} strokeWidth={1.7} {...p}>
+    <rect x="3.5" y="5" width="17" height="15.5" rx="2.2" />
+    <path d="M3.5 10h17M8 3.5V6M16 3.5V6" />
+  </svg>
+);

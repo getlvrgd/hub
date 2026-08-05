@@ -18,9 +18,10 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
+  // The one page colour, so the phone's status bar matches the surface it sits on.
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f4f6fa" },
-    { media: "(prefers-color-scheme: dark)", color: "#070a12" },
+    { media: "(prefers-color-scheme: light)", color: "#f7f7f5" },
+    { media: "(prefers-color-scheme: dark)", color: "#121211" },
   ],
 };
 

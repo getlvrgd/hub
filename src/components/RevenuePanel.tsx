@@ -7,15 +7,25 @@ import { formatMoney, toDateInput } from "@/lib/money";
 import type { RevenueSummary } from "@/lib/revenue";
 
 import { Modal } from "./Modal";
-import { IconPlus, IconTrash } from "./icons";
+import {
+  IconAvg,
+  IconClients,
+  IconDeals,
+  IconMonth,
+  IconPeak,
+  IconPlus,
+  IconTrash,
+} from "./icons";
 
 /**
  * What the agency has generated.
  *
- * The headline is one number, so it is a number — not a chart with a single bar in
- * it. The month strip beneath is the only place a mark carries data, and it is one
- * series in one hue: every figure on screen wears an ink token, and colour never
- * stands in for a label.
+ * One figure, because that is the question this answers. No chart: a single total
+ * is not a shape, and twelve bars where eleven are empty said less than the number
+ * itself. The supporting stats are a quiet row under it, and the entry list stays
+ * folded away until you go looking for it.
+ *
+ * Every number wears an ink token — nothing here is coloured to mean something.
  */
 export function RevenuePanel({
   revenue,
@@ -25,10 +35,7 @@ export function RevenuePanel({
   toast: (msg: string) => void;
 }) {
   const [adding, setAdding] = useState(false);
-  const [showAll, setShowAll] = useState(false);
-
-  const peak = Math.max(...revenue.months.map((m) => m.cents), 1);
-  const shown = showAll ? revenue.entries : revenue.entries.slice(0, 6);
+  const [showList, setShowList] = useState(false);
 
   return (
     <section>
@@ -44,54 +51,52 @@ export function RevenuePanel({
       </div>
 
       <div className="revpanel">
-        <div className="revtop">
-          <div className="revhero">
-            <div className="revlabel">Generated all time</div>
-            <div className="revbig">{formatMoney(revenue.allTimeCents)}</div>
-          </div>
+        <div className="revhero">
+          <div className="revbig">{formatMoney(revenue.allTimeCents)}</div>
+          <div className="revcap">Total agency revenue</div>
 
-          <div className="revtiles">
-            <div className="revtile">
-              <div className="revlabel">This month</div>
-              <div className="v">{formatMoney(revenue.thisMonthCents)}</div>
+          {revenue.count ? (
+            <div className="revstats">
+              <span className="revstat">
+                <IconDeals />
+                <b>{revenue.count}</b> {revenue.count === 1 ? "Deal" : "Deals"}
+              </span>
+              <span className="revstat">
+                <IconClients />
+                <b>{revenue.clientCount}</b>{" "}
+                {revenue.clientCount === 1 ? "Client" : "Clients"}
+              </span>
+              <span className="revstat">
+                <IconAvg />
+                <b>{formatMoney(revenue.averageCents)}</b> avg
+              </span>
+              <span className="revstat">
+                <IconPeak />
+                <b>{formatMoney(revenue.biggestCents)}</b> biggest
+              </span>
+              <span className="revstat">
+                <IconMonth />
+                <b>{formatMoney(revenue.thisMonthCents)}</b> this month
+              </span>
             </div>
-            <div className="revtile">
-              <div className="revlabel">This year</div>
-              <div className="v">{formatMoney(revenue.thisYearCents)}</div>
-            </div>
-            <div className="revtile">
-              <div className="revlabel">Average deal</div>
-              <div className="v">{formatMoney(revenue.averageCents)}</div>
-              <div className="sub">
-                across {revenue.count} {revenue.count === 1 ? "entry" : "entries"}
-              </div>
-            </div>
-            <div className="revtile">
-              <div className="revlabel">Biggest</div>
-              <div className="v">{formatMoney(revenue.biggestCents)}</div>
-            </div>
-          </div>
+          ) : null}
         </div>
 
         {revenue.count ? (
-          <div className="revmonths" aria-hidden="true">
-            {revenue.months.map((m) => (
-              <div
-                key={m.key}
-                className={`mbar${m.cents ? "" : " zero"}`}
-                title={`${m.label} ${m.year} — ${formatMoney(m.cents)}`}
-              >
-                <i style={{ height: `${Math.max((m.cents / peak) * 100, m.cents ? 6 : 2)}%` }} />
-                <span>{m.isYearStart ? `${m.label} ${String(m.year).slice(2)}` : m.label}</span>
-              </div>
-            ))}
+          <div className="revfold">
+            <button
+              className="revfoldbtn"
+              onClick={() => setShowList((v) => !v)}
+              aria-expanded={showList}
+            >
+              {showList ? "Hide entries" : `${revenue.count} entries`}
+            </button>
           </div>
         ) : null}
 
-        {/* The bars are decorative once this table exists — same numbers, readable. */}
-        {revenue.count ? (
+        {revenue.count && showList ? (
           <div className="revlist">
-            {shown.map((e) => (
+            {revenue.entries.map((e) => (
               <div className="revrow" key={e.id}>
                 <span className="who">
                   {e.client}
@@ -120,24 +125,14 @@ export function RevenuePanel({
                 </button>
               </div>
             ))}
-            {revenue.entries.length > 6 ? (
-              <div className="revrow" style={{ justifyContent: "center" }}>
-                <button className="secact" onClick={() => setShowAll((v) => !v)}>
-                  {showAll
-                    ? "Show less"
-                    : `Show all ${revenue.entries.length} entries`}
-                </button>
-              </div>
-            ) : null}
           </div>
-        ) : (
-          <div style={{ padding: "6px 22px 22px" }}>
-            <div className="empty" style={{ padding: "26px 18px" }}>
-              <b>No revenue logged yet.</b>
-              Add what the agency has brought in and the totals build from there.
-            </div>
+        ) : null}
+
+        {!revenue.count ? (
+          <div className="revempty">
+            Nothing logged yet — <button onClick={() => setAdding(true)}>add the first one</button>.
           </div>
-        )}
+        ) : null}
       </div>
 
       {adding ? <AddRevenue onClose={() => setAdding(false)} toast={toast} /> : null}

@@ -14,32 +14,18 @@ export type RevenueRow = {
   note: string | null;
 };
 
-export type MonthBucket = {
-  /** "2026-08" */
-  key: string;
-  /** "Aug" */
-  label: string;
-  /** Marks January, which is where a reader needs the year to reorient. */
-  year: number;
-  isYearStart: boolean;
-  cents: number;
-};
-
 export type RevenueSummary = {
   allTimeCents: number;
   thisMonthCents: number;
   thisYearCents: number;
+  /** Number of entries — deals. */
   count: number;
+  /** Distinct clients, matched case-insensitively so "Acme" and "acme" are one. */
+  clientCount: number;
   averageCents: number;
   biggestCents: number;
-  months: MonthBucket[];
   entries: Array<Omit<RevenueRow, "occurredAt"> & { occurredAt: string }>;
 };
-
-const MONTH_LABELS = [
-  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-];
 
 const monthKey = (d: Date) =>
   `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
@@ -59,32 +45,18 @@ export function summariseRevenue(
   let thisYearCents = 0;
   let biggestCents = 0;
 
-  const byMonth = new Map<string, number>();
+  const clients = new Set<string>();
 
   for (const r of rows) {
     const when = r.occurredAt instanceof Date ? r.occurredAt : new Date(r.occurredAt);
     allTimeCents += r.amountCents;
     if (r.amountCents > biggestCents) biggestCents = r.amountCents;
 
-    const key = monthKey(when);
-    if (key === thisMonth) thisMonthCents += r.amountCents;
+    if (monthKey(when) === thisMonth) thisMonthCents += r.amountCents;
     if (when.getFullYear() === thisYear) thisYearCents += r.amountCents;
-    byMonth.set(key, (byMonth.get(key) ?? 0) + r.amountCents);
-  }
 
-  // The last 12 months, always all 12 — a month with nothing in it is information,
-  // and dropping it would make the strip lie about the shape of the year.
-  const months: MonthBucket[] = [];
-  for (let i = 11; i >= 0; i--) {
-    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    const key = monthKey(d);
-    months.push({
-      key,
-      label: MONTH_LABELS[d.getMonth()],
-      year: d.getFullYear(),
-      isYearStart: d.getMonth() === 0,
-      cents: byMonth.get(key) ?? 0,
-    });
+    const name = r.client.trim().toLowerCase();
+    if (name) clients.add(name);
   }
 
   return {
@@ -92,9 +64,9 @@ export function summariseRevenue(
     thisMonthCents,
     thisYearCents,
     count: rows.length,
+    clientCount: clients.size,
     averageCents: rows.length ? Math.round(allTimeCents / rows.length) : 0,
     biggestCents,
-    months,
     entries: rows.map((r) => ({
       id: r.id,
       client: r.client,
