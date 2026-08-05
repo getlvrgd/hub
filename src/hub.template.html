@@ -1,0 +1,1240 @@
+<style>
+__FONT_FACE__
+
+  /* ------------------------------------------------------------------
+     Tokens. Deliberately the same names and values as the Leverage
+     Dashboard, so the two apps read as one product when you bounce
+     between them. Dark is a separately chosen set, not an inversion.
+     ------------------------------------------------------------------ */
+  :root{
+    --font-head:"Bootzy TM","Bootzy",-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --font-body:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --font-mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+
+    --brand:#2563eb;
+    --brand-neon:#3b82f6;
+    --brand-glow:rgba(59,130,246,.35);
+    --danger:#e5484d;
+    --star:#f5b301;
+
+    --radius:20px;
+    --radius-sm:14px;
+    --radius-xs:10px;
+
+    color-scheme:light;
+    --bg-grad1:#f4f6fa;
+    --bg-grad2:#e9edf4;
+    --card:#ffffff;
+    --panel:#ffffff;
+    --panel-solid:#ffffff;
+    --panel-border:rgba(17,24,39,.07);
+    --panel-border-hover:rgba(17,24,39,.16);
+    --chip:rgba(17,24,39,.045);
+    --chip-hover:rgba(17,24,39,.08);
+    --text:#0f1729;
+    --text-dim:#5b6576;
+    --text-faint:#98a1b2;
+    --input-bg:#ffffff;
+    --input-border:rgba(17,24,39,.12);
+    --divider:rgba(17,24,39,.07);
+    --shadow-sm:0 1px 2px rgba(16,24,40,.06);
+    --shadow:0 1px 3px rgba(16,24,40,.05), 0 12px 26px -14px rgba(16,24,40,.16);
+    --shadow-lg:0 2px 8px rgba(16,24,40,.05), 0 26px 50px -24px rgba(16,24,40,.26);
+    --scrim:rgba(15,23,41,.32);
+  }
+
+  /* Both selectors, both directions: the in-page toggle stamps data-theme on
+     <html> and has to win over the OS preference either way. */
+  @media (prefers-color-scheme:dark){ :root:where(:not([data-theme="light"])){ --_dark:1 } }
+  :root[data-theme="dark"]{ --_dark:1 }
+
+  @media (prefers-color-scheme:dark){
+    :root:where(:not([data-theme="light"])){
+      color-scheme:dark;
+      --bg-grad1:#0d1524; --bg-grad2:#070a12;
+      --card:#111a2b; --panel:#111a2b; --panel-solid:#141f33;
+      --panel-border:rgba(148,163,184,.13); --panel-border-hover:rgba(148,163,184,.30);
+      --chip:rgba(148,163,184,.10); --chip-hover:rgba(148,163,184,.18);
+      --text:#e8eefc; --text-dim:#9aa7bd; --text-faint:#64708a;
+      --input-bg:rgba(255,255,255,.03); --input-border:rgba(148,163,184,.20);
+      --divider:rgba(148,163,184,.10);
+      --brand-neon:#56a2ff; --brand-glow:rgba(56,140,255,.45); --star:#ffcb47;
+      --shadow-sm:0 1px 2px rgba(0,0,0,.4);
+      --shadow:0 2px 6px rgba(0,0,0,.35), 0 18px 40px -22px rgba(0,0,0,.7);
+      --shadow-lg:0 2px 8px rgba(0,0,0,.4), 0 30px 60px -24px rgba(0,0,0,.8);
+      --scrim:rgba(3,6,14,.62);
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme:dark;
+    --bg-grad1:#0d1524; --bg-grad2:#070a12;
+    --card:#111a2b; --panel:#111a2b; --panel-solid:#141f33;
+    --panel-border:rgba(148,163,184,.13); --panel-border-hover:rgba(148,163,184,.30);
+    --chip:rgba(148,163,184,.10); --chip-hover:rgba(148,163,184,.18);
+    --text:#e8eefc; --text-dim:#9aa7bd; --text-faint:#64708a;
+    --input-bg:rgba(255,255,255,.03); --input-border:rgba(148,163,184,.20);
+    --divider:rgba(148,163,184,.10);
+    --brand-neon:#56a2ff; --brand-glow:rgba(56,140,255,.45); --star:#ffcb47;
+    --shadow-sm:0 1px 2px rgba(0,0,0,.4);
+    --shadow:0 2px 6px rgba(0,0,0,.35), 0 18px 40px -22px rgba(0,0,0,.7);
+    --shadow-lg:0 2px 8px rgba(0,0,0,.4), 0 30px 60px -24px rgba(0,0,0,.8);
+    --scrim:rgba(3,6,14,.62);
+  }
+
+  /* Accent per category. Adjacent hues stay distinguishable in both themes;
+     the colour is only ever a mark beside the label, never the label itself. */
+  :root{
+    --a-blue:#2a78d6; --a-orange:#eb6834; --a-aqua:#1baf7a; --a-yellow:#d99400;
+    --a-magenta:#d55181; --a-green:#0f9d58; --a-violet:#6d5ce0; --a-red:#e34948;
+    --a-slate:#64748b;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:where(:not([data-theme="light"])){
+      --a-blue:#4d95ec; --a-orange:#f0784a; --a-aqua:#2cc691; --a-yellow:#e8a828;
+      --a-magenta:#e772a0; --a-green:#3cbf7a; --a-violet:#9085e9; --a-red:#e66767;
+      --a-slate:#94a3b8;
+    }
+  }
+  :root[data-theme="dark"]{
+    --a-blue:#4d95ec; --a-orange:#f0784a; --a-aqua:#2cc691; --a-yellow:#e8a828;
+    --a-magenta:#e772a0; --a-green:#3cbf7a; --a-violet:#9085e9; --a-red:#e66767;
+    --a-slate:#94a3b8;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box }
+
+  body{
+    margin:0;
+    min-height:100vh;
+    font-family:var(--font-body);
+    color:var(--text);
+    background:
+      radial-gradient(1100px 620px at 78% -12%, var(--brand-glow), transparent 62%),
+      linear-gradient(168deg, var(--bg-grad1), var(--bg-grad2));
+    background-attachment:fixed;
+    -webkit-font-smoothing:antialiased;
+    font-size:15px;
+    line-height:1.5;
+  }
+
+  button,input,select,textarea{ font:inherit; color:inherit }
+  button{ cursor:pointer; background:none; border:0; padding:0 }
+  a{ color:inherit; text-decoration:none }
+
+  :focus-visible{ outline:2px solid var(--brand-neon); outline-offset:2px; border-radius:6px }
+
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 22px 100px }
+
+  /* ---------------- top bar ---------------- */
+  .topbar{
+    position:sticky; top:0; z-index:40;
+    display:flex; align-items:center; gap:14px;
+    padding:14px 0 13px;
+    background:linear-gradient(to bottom, var(--bg-grad1) 62%, transparent);
+    backdrop-filter:blur(10px);
+  }
+  .brandmark{ display:flex; align-items:center; gap:11px; min-width:0 }
+  .logo{ height:19px; width:auto; display:block }
+  .logo-dark{ display:none }
+  :root[data-theme="dark"] .logo-light{ display:none }
+  :root[data-theme="dark"] .logo-dark{ display:block }
+  @media (prefers-color-scheme:dark){
+    :root:where(:not([data-theme="light"])) .logo-light{ display:none }
+    :root:where(:not([data-theme="light"])) .logo-dark{ display:block }
+  }
+  .brandrule{ width:1px; height:18px; background:var(--divider) }
+  .brandname{
+    font-family:var(--font-head); font-size:16px; letter-spacing:.01em;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .spacer{ flex:1 }
+
+  .iconbtn{
+    display:inline-flex; align-items:center; justify-content:center; gap:7px;
+    height:34px; min-width:34px; padding:0 10px;
+    border-radius:11px; border:1px solid var(--panel-border);
+    background:var(--panel); color:var(--text-dim);
+    box-shadow:var(--shadow-sm);
+    transition:color .14s, border-color .14s, transform .14s;
+  }
+  .iconbtn:hover{ color:var(--text); border-color:var(--panel-border-hover) }
+  .iconbtn:active{ transform:translateY(1px) }
+  .iconbtn svg{ width:16px; height:16px; display:block }
+  .iconbtn.primary{
+    background:var(--brand); border-color:transparent; color:#fff;
+    box-shadow:0 1px 2px rgba(16,24,40,.18), 0 8px 18px -10px var(--brand-glow);
+    font-weight:600; font-size:13.5px; padding:0 13px;
+  }
+  .iconbtn.primary:hover{ color:#fff; filter:brightness(1.06) }
+  @media (max-width:640px){ .btn-label{ display:none } .iconbtn.primary{ padding:0 10px } }
+
+  /* ---------------- hero + search ---------------- */
+  .hero{ padding:26px 0 6px }
+  .greeting{ font-size:13px; color:var(--text-faint); letter-spacing:.02em }
+  .hero h1{
+    font-family:var(--font-head); font-weight:400;
+    font-size:clamp(28px,4.6vw,42px); line-height:1.08;
+    margin:6px 0 20px; letter-spacing:-.005em;
+  }
+
+  .searchrow{ position:relative; margin-bottom:8px }
+  .searchrow svg.mag{
+    position:absolute; left:17px; top:50%; transform:translateY(-50%);
+    width:18px; height:18px; color:var(--text-faint); pointer-events:none;
+  }
+  #q{
+    width:100%; height:56px; padding:0 92px 0 47px;
+    border-radius:var(--radius); border:1px solid var(--input-border);
+    background:var(--input-bg); box-shadow:var(--shadow);
+    font-size:16.5px; letter-spacing:-.005em;
+    transition:border-color .14s, box-shadow .14s;
+  }
+  #q::placeholder{ color:var(--text-faint) }
+  #q:focus{ outline:none; border-color:var(--brand-neon); box-shadow:var(--shadow), 0 0 0 4px var(--brand-glow) }
+  .kbdhint{
+    position:absolute; right:16px; top:50%; transform:translateY(-50%);
+    display:flex; gap:5px; pointer-events:none;
+  }
+  kbd{
+    font-family:var(--font-mono); font-size:11px; line-height:1;
+    padding:5px 7px; border-radius:7px;
+    background:var(--chip); color:var(--text-faint);
+    border:1px solid var(--panel-border);
+  }
+  @media (max-width:520px){ .kbdhint{ display:none } #q{ padding-right:20px } }
+
+  /* ---------------- sections ---------------- */
+  section{ margin-top:30px }
+  .sechead{
+    display:flex; align-items:center; gap:10px;
+    margin:0 4px 13px;
+  }
+  .sectitle{
+    font-size:11.5px; font-weight:650; letter-spacing:.10em; text-transform:uppercase;
+    color:var(--text-faint);
+  }
+  .seccount{
+    font-family:var(--font-mono); font-size:11px; color:var(--text-faint);
+    background:var(--chip); border-radius:20px; padding:2px 8px;
+  }
+  .secline{ flex:1; height:1px; background:var(--divider) }
+  .secact{
+    font-size:12px; color:var(--text-faint); padding:3px 8px; border-radius:8px;
+    transition:color .14s, background .14s;
+  }
+  .secact:hover{ color:var(--text); background:var(--chip) }
+
+  .grid{ display:grid; gap:12px; grid-template-columns:repeat(auto-fill,minmax(268px,1fr)) }
+
+  /* ---------------- card ---------------- */
+  .card{
+    position:relative; display:flex; flex-direction:column;
+    padding:15px 15px 13px;
+    border-radius:var(--radius); border:1px solid var(--panel-border);
+    background:var(--card); box-shadow:var(--shadow-sm);
+    transition:transform .16s cubic-bezier(.2,.8,.3,1), box-shadow .16s, border-color .16s;
+  }
+  .card::after{
+    content:""; position:absolute; inset:0; border-radius:inherit;
+    background:linear-gradient(135deg, var(--accent), transparent 58%);
+    opacity:0; transition:opacity .16s; pointer-events:none;
+  }
+  .card:hover{ transform:translateY(-2px); box-shadow:var(--shadow); border-color:var(--panel-border-hover) }
+  .card:hover::after{ opacity:.05 }
+  .card.dragging{ opacity:.4 }
+  .card.dropbefore{ box-shadow:-3px 0 0 var(--brand-neon), var(--shadow) }
+
+  .cardmain{ display:flex; align-items:flex-start; gap:12px; text-align:left; width:100% }
+  .tile{
+    flex:none; width:42px; height:42px; border-radius:13px;
+    display:grid; place-items:center;
+    font-family:var(--font-head); font-size:15px; letter-spacing:.01em;
+    color:#fff; background:var(--accent);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.22);
+  }
+  .tile.emoji{ font-family:var(--font-body); font-size:21px; background:var(--chip); color:inherit; box-shadow:none }
+  .cardtext{ min-width:0; flex:1; padding-top:1px }
+  /* The name truncates, the launch-key badge does not: they can't be the same
+     element or a long name pushes its own shortcut number off the card. */
+  .cardname{
+    font-size:15px; font-weight:600; letter-spacing:-.01em;
+    display:flex; align-items:center; gap:7px; min-width:0;
+  }
+  .cardname .nm{ min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+  .cardnote{
+    font-size:12.5px; color:var(--text-dim); margin-top:3px;
+    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+  }
+  /* block, not the span's default inline — ellipsis has no effect on an inline box */
+  .cardhost{
+    display:block;
+    font-family:var(--font-mono); font-size:10.5px; color:var(--text-faint);
+    margin-top:7px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .needsurl{
+    display:inline-flex; align-items:center; gap:5px;
+    font-family:var(--font-body); font-size:10.5px; font-weight:600;
+    color:var(--a-orange); background:color-mix(in srgb, var(--a-orange) 12%, transparent);
+    border-radius:20px; padding:2px 8px; margin-top:7px; letter-spacing:.01em;
+  }
+
+  .sublinks{ display:flex; flex-wrap:wrap; gap:5px; margin:11px 0 0 54px }
+  .sublink{
+    font-size:11.5px; color:var(--text-dim);
+    background:var(--chip); border-radius:8px; padding:3px 9px;
+    transition:background .13s, color .13s;
+  }
+  .sublink:hover{ background:var(--chip-hover); color:var(--text) }
+
+  .cardtools{
+    position:absolute; top:9px; right:9px; display:flex; gap:2px;
+    opacity:0; transition:opacity .14s;
+  }
+  .card:hover .cardtools, .cardtools:focus-within{ opacity:1 }
+  .card .cardtools .on{ opacity:1 }
+  .tool{
+    width:27px; height:27px; border-radius:8px; display:grid; place-items:center;
+    color:var(--text-faint); background:var(--panel);
+    transition:color .13s, background .13s;
+  }
+  .tool:hover{ color:var(--text); background:var(--chip-hover) }
+  .tool svg{ width:14px; height:14px; display:block }
+  .tool.starred{ color:var(--star); opacity:1 }
+  .tool.del:hover{ color:var(--danger) }
+  .grabber{ cursor:grab; color:var(--text-faint) }
+  .grabber:active{ cursor:grabbing }
+
+  /* pinned cards read as a shortcut row: number badge, tighter */
+  .pinned .card{ padding-bottom:15px }
+  .numkey{
+    font-family:var(--font-mono); font-size:10px; color:var(--text-faint);
+    background:var(--chip); border:1px solid var(--panel-border);
+    border-radius:6px; padding:1px 5px; flex:none;
+  }
+
+  /* ---------------- results (search mode) ---------------- */
+  .results{ display:flex; flex-direction:column; gap:6px; margin-top:18px }
+  .res{
+    display:flex; align-items:center; gap:12px; width:100%; text-align:left;
+    padding:11px 13px; border-radius:var(--radius-sm);
+    border:1px solid transparent; background:transparent;
+    transition:background .12s, border-color .12s;
+  }
+  .res:hover{ background:var(--panel) }
+  .res.sel{ background:var(--panel); border-color:var(--panel-border-hover); box-shadow:var(--shadow-sm) }
+  .res .tile{ width:34px; height:34px; border-radius:11px; font-size:12.5px }
+  .res .tile.emoji{ font-size:17px }
+  .restext{ min-width:0; flex:1; display:flex; flex-direction:column; gap:1px }
+  .resname{ display:block; font-size:14px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+  .ressub{ display:block; font-size:11.5px; color:var(--text-faint); white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+  .resgo{ font-size:11px; color:var(--text-faint); font-family:var(--font-mono); flex:none }
+
+  mark{ background:color-mix(in srgb, var(--brand-neon) 26%, transparent); color:inherit; border-radius:3px; padding:0 1px }
+
+  /* ---------------- empty / banner ---------------- */
+  .empty{
+    text-align:center; padding:54px 20px; color:var(--text-faint);
+    border:1px dashed var(--panel-border-hover); border-radius:var(--radius);
+  }
+  .empty b{ display:block; color:var(--text-dim); font-weight:600; margin-bottom:5px; font-size:14px }
+
+  .banner{
+    display:flex; align-items:center; gap:11px;
+    padding:11px 14px; margin-top:16px;
+    border-radius:var(--radius-sm); border:1px solid var(--panel-border);
+    background:var(--panel); box-shadow:var(--shadow-sm);
+    font-size:13px; color:var(--text-dim);
+  }
+  .banner .dot{ width:7px; height:7px; border-radius:50%; background:var(--a-orange); flex:none }
+  .banner .x{ margin-left:auto; color:var(--text-faint); padding:2px 6px; border-radius:7px }
+  .banner .x:hover{ background:var(--chip); color:var(--text) }
+
+  /* ---------------- modal ---------------- */
+  .scrim{
+    position:fixed; inset:0; z-index:90;
+    background:var(--scrim); backdrop-filter:blur(3px);
+    display:grid; place-items:start center; padding:6vh 18px 40px;
+    overflow-y:auto;
+  }
+  .scrim[hidden]{ display:none }
+  .modal{
+    width:100%; max-width:540px;
+    background:var(--panel-solid); border:1px solid var(--panel-border);
+    border-radius:var(--radius); box-shadow:var(--shadow-lg);
+    padding:22px;
+    animation:pop .16s cubic-bezier(.2,.8,.3,1);
+  }
+  @keyframes pop{ from{ opacity:0; transform:translateY(8px) scale(.98) } }
+  @media (prefers-reduced-motion:reduce){ .modal{ animation:none } .card{ transition:none } }
+  .modal h2{ font-family:var(--font-head); font-weight:400; font-size:20px; margin:0 0 3px }
+  .modal .sub{ font-size:12.5px; color:var(--text-faint); margin:0 0 18px }
+
+  .field{ margin-bottom:13px }
+  .field label{ display:block; font-size:11.5px; font-weight:600; letter-spacing:.05em; text-transform:uppercase; color:var(--text-faint); margin-bottom:6px }
+  .field input, .field select, .field textarea{
+    width:100%; padding:10px 12px;
+    border-radius:var(--radius-xs); border:1px solid var(--input-border);
+    background:var(--input-bg); font-size:14px;
+  }
+  .field textarea{ resize:vertical; min-height:58px }
+  .field input:focus, .field select:focus, .field textarea:focus{
+    outline:none; border-color:var(--brand-neon); box-shadow:0 0 0 3px var(--brand-glow);
+  }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:11px }
+  @media (max-width:520px){ .row2{ grid-template-columns:1fr } }
+  .hint{ font-size:11.5px; color:var(--text-faint); margin-top:5px }
+
+  .swatches{ display:flex; flex-wrap:wrap; gap:7px }
+  .sw{ width:26px; height:26px; border-radius:9px; border:2px solid transparent; background:var(--c) }
+  .sw[aria-pressed="true"]{ border-color:var(--text); box-shadow:0 0 0 2px var(--panel-solid) inset }
+
+  .sublinkedit{ display:flex; gap:7px; margin-bottom:7px; align-items:center }
+  .sublinkedit input{ flex:1 }
+  .sublinkedit input.lbl{ max-width:150px }
+  .sublinkedit .tool{ flex:none; background:var(--chip) }
+
+  .modalfoot{ display:flex; align-items:center; gap:9px; margin-top:20px; padding-top:16px; border-top:1px solid var(--divider) }
+  .modalfoot .spacer{ flex:1 }
+  .btn{
+    height:37px; padding:0 15px; border-radius:11px; font-size:13.5px; font-weight:600;
+    border:1px solid var(--panel-border); background:var(--panel); color:var(--text-dim);
+    transition:color .13s, border-color .13s;
+  }
+  .btn:hover{ color:var(--text); border-color:var(--panel-border-hover) }
+  .btn.go{ background:var(--brand); border-color:transparent; color:#fff }
+  .btn.go:hover{ color:#fff; filter:brightness(1.06) }
+  .btn.ghostdel{ color:var(--text-faint); border-color:transparent }
+  .btn.ghostdel:hover{ color:var(--danger); border-color:transparent; background:color-mix(in srgb, var(--danger) 10%, transparent) }
+
+  /* ---------------- menu ---------------- */
+  .menuwrap{ position:relative }
+  .menu{
+    position:absolute; right:0; top:calc(100% + 7px); z-index:50;
+    min-width:216px; padding:6px;
+    background:var(--panel-solid); border:1px solid var(--panel-border);
+    border-radius:var(--radius-sm); box-shadow:var(--shadow-lg);
+  }
+  .menu[hidden]{ display:none }
+  .menu button{
+    display:flex; align-items:center; gap:10px; width:100%; text-align:left;
+    padding:8px 10px; border-radius:9px; font-size:13.5px; color:var(--text-dim);
+  }
+  .menu button:hover{ background:var(--chip); color:var(--text) }
+  .menu button svg{ width:15px; height:15px; flex:none; color:var(--text-faint) }
+  .menu hr{ border:0; border-top:1px solid var(--divider); margin:5px 6px }
+  .menu .mnote{ padding:6px 10px 8px; font-size:11.5px; color:var(--text-faint); line-height:1.45 }
+
+  .toast{
+    position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(12px);
+    z-index:120; padding:10px 17px; border-radius:12px;
+    background:var(--text); color:var(--bg-grad1); font-size:13px; font-weight:550;
+    box-shadow:var(--shadow-lg); opacity:0; pointer-events:none;
+    transition:opacity .18s, transform .18s;
+  }
+  .toast.on{ opacity:1; transform:translateX(-50%) translateY(0) }
+
+  .sr{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0 }
+</style>
+
+<div class="wrap">
+
+  <header class="topbar">
+    <div class="brandmark">
+      <img class="logo logo-light" src="__LOGO_BLACK__" alt="LVRGD">
+      <img class="logo logo-dark" src="__LOGO_WHITE__" alt="" aria-hidden="true">
+      <span class="brandrule"></span>
+      <span class="brandname">Leveraged Hub</span>
+    </div>
+    <span class="spacer"></span>
+
+    <button class="iconbtn" id="themeBtn" title="Theme" aria-label="Switch theme">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" id="themeIcon"></svg>
+    </button>
+
+    <div class="menuwrap">
+      <button class="iconbtn" id="menuBtn" title="More" aria-label="More" aria-haspopup="true" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.4" fill="currentColor" stroke="none"/></svg>
+      </button>
+      <div class="menu" id="menu" hidden role="menu">
+        <button id="mExport" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+          Export a backup file
+        </button>
+        <button id="mCopy" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+          Copy everything as JSON
+        </button>
+        <button id="mImport" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3m0 0L8 7m4-4 4 4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+          Import from a backup
+        </button>
+        <hr>
+        <button id="mCats" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+          Manage sections
+        </button>
+        <button id="mReset" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></svg>
+          Reset to the starter set
+        </button>
+        <hr>
+        <p class="mnote">Everything lives in this browser. Export before switching machines.</p>
+      </div>
+    </div>
+
+    <button class="iconbtn primary" id="addBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+      <span class="btn-label">Add</span>
+    </button>
+  </header>
+
+  <div class="hero">
+    <p class="greeting" id="greeting"></p>
+    <h1 id="heroline">Where are we going?</h1>
+
+    <div class="searchrow">
+      <svg class="mag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg>
+      <input id="q" type="text" autocomplete="off" spellcheck="false"
+             placeholder="Search everything — or paste a URL to add it"
+             aria-label="Search your destinations">
+      <div class="kbdhint"><kbd>⌘K</kbd><kbd>↵</kbd></div>
+    </div>
+    <div id="banner"></div>
+  </div>
+
+  <main id="board"></main>
+</div>
+
+<div class="scrim" id="scrim" hidden></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<input type="file" id="fileIn" accept="application/json,.json" class="sr">
+
+<script>
+(() => {
+"use strict";
+
+/* ================================================================
+   Leveraged Hub — one front door for every dashboard, hub and tool.
+
+   No server and no build. Everything you add is written to this
+   browser's localStorage under LVRGD_HUB_V1, which is also exactly
+   what the Export item in the ⋯ menu hands you: the same JSON,
+   importable anywhere. That is the whole persistence story, so a
+   backup is a real backup and moving machines is a file copy.
+   ================================================================ */
+
+const KEY   = "lvrgd_hub_v1";
+const TKEY  = "lvrgd_hub_theme";
+const uid   = () => Math.random().toString(36).slice(2, 10);
+/* Every value here is plain JSON, so this is a full deep copy — and unlike
+   structuredClone it needs nothing newer than the oldest browser you'd open
+   this in. Used to hand the editor a detached copy, so cancelling really cancels. */
+const clone = v => JSON.parse(JSON.stringify(v));
+
+/* ---------- theme ------------------------------------------------ */
+/* Three real states. "system" is not a synonym for light: a Mac that
+   flips at sunset should flip this too unless told otherwise. */
+const THEMES = ["system", "light", "dark"];
+const ICONS = {
+  system:'<circle cx="12" cy="12" r="8"/><path d="M12 4v16" /><path d="M12 4a8 8 0 0 1 0 16" fill="currentColor" stroke="none"/>',
+  light:'<circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.1 5.1l1.4 1.4M17.5 17.5l1.4 1.4M18.9 5.1l-1.4 1.4M6.5 17.5l-1.4 1.4"/>',
+  dark:'<path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/>'
+};
+function readTheme(){ try { const v = localStorage.getItem(TKEY); return THEMES.includes(v) ? v : "system"; } catch { return "system"; } }
+function applyTheme(t){
+  if (t === "system") document.documentElement.removeAttribute("data-theme");
+  else document.documentElement.setAttribute("data-theme", t);
+  document.getElementById("themeIcon").innerHTML = ICONS[t];
+  document.getElementById("themeBtn").title = "Theme: " + t;
+}
+applyTheme(readTheme());
+document.getElementById("themeBtn").onclick = () => {
+  const next = THEMES[(THEMES.indexOf(readTheme()) + 1) % 3];
+  try { localStorage.setItem(TKEY, next); } catch {}
+  applyTheme(next);
+};
+
+/* ---------- the starter set -------------------------------------- */
+/* Seeded from the projects that already exist. Anything whose live URL
+   isn't known ships with url:"" — the card then says "Set the URL" and
+   a click opens the editor instead of leading nowhere. */
+const ACCENTS = ["blue","violet","aqua","orange","magenta","green","yellow","red","slate"];
+
+function starter(){
+  return {
+    version: 1,
+    categories: [
+      { id:"exec",  name:"Daily execution" },
+      { id:"sales", name:"Sales" },
+      { id:"data",  name:"Metrics & data" },
+      { id:"build", name:"Build & brand" },
+      { id:"tools", name:"Tools" }
+    ],
+    items: [
+      { id:uid(), name:"Daily Execution Dashboard", url:"", note:"Highest-leverage work up top, client to-do lists below. Rolls anything unfinished into tomorrow.",
+        cat:"exec", accent:"blue", emoji:"", pinned:true, newTab:true, links:[], opens:0, last:0 },
+      { id:uid(), name:"Sales Rep Hub", url:"", note:"SOPs, scripts, assets, payment links and logins for every offer. Owner directory at /hub.",
+        cat:"sales", accent:"violet", emoji:"", pinned:true, newTab:true,
+        links:[ {label:"Owner directory", url:"/hub"}, {label:"Sign in", url:"/login"} ], opens:0, last:0 },
+      { id:uid(), name:"Sales Dashboard", url:"", note:"The numbers side of the sales team — pipeline, activity, close rates.",
+        cat:"data", accent:"aqua", emoji:"", pinned:true, newTab:true, links:[], opens:0, last:0 },
+      { id:uid(), name:"LVRGD Website", url:"", note:"The public site.",
+        cat:"build", accent:"orange", emoji:"", pinned:false, newTab:true, links:[], opens:0, last:0 },
+      { id:uid(), name:"GitHub — getlvrgd", url:"https://github.com/getlvrgd", note:"Every repo behind these apps.",
+        cat:"build", accent:"slate", emoji:"", pinned:false, newTab:true,
+        links:[ {label:"sales-rep-hubs", url:"https://github.com/getlvrgd/sales-rep-hubs"},
+                {label:"to-do list", url:"https://github.com/getlvrgd/lvrgd_to-do-list"},
+                {label:"website", url:"https://github.com/getlvrgd/lvrgdwebsite"} ], opens:0, last:0 },
+      { id:uid(), name:"Vercel", url:"https://vercel.com/dashboard", note:"Deploys, domains and env vars for anything Next.js.",
+        cat:"tools", accent:"slate", emoji:"", pinned:false, newTab:true, links:[], opens:0, last:0 }
+    ]
+  };
+}
+
+/* ---------- state ------------------------------------------------ */
+let db = load();
+
+function load(){
+  let raw = null;
+  try { raw = localStorage.getItem(KEY); } catch {}
+  if (!raw) return starter();
+  try { return normalise(JSON.parse(raw)); }
+  catch { return starter(); }
+}
+
+/* Anything read back from storage or an import file is untrusted: it may
+   be older, hand-edited, or from a different build. Coerce every field to
+   the shape the renderer expects rather than trusting what's there. */
+function normalise(d){
+  const out = { version:1, categories:[], items:[] };
+  const cats = Array.isArray(d?.categories) ? d.categories : [];
+  out.categories = cats
+    .filter(c => c && typeof c.name === "string" && c.name.trim())
+    .map(c => ({ id: String(c.id || uid()), name: String(c.name).trim().slice(0,40) }));
+  if (!out.categories.length) out.categories = starter().categories;
+
+  const known = new Set(out.categories.map(c => c.id));
+  const items = Array.isArray(d?.items) ? d.items : [];
+  out.items = items
+    .filter(i => i && typeof i.name === "string" && i.name.trim())
+    .map(i => ({
+      id: String(i.id || uid()),
+      name: String(i.name).trim().slice(0,80),
+      url: safeUrl(i.url),
+      note: String(i.note ?? "").slice(0,220),
+      cat: known.has(i.cat) ? i.cat : out.categories[0].id,
+      accent: ACCENTS.includes(i.accent) ? i.accent : "blue",
+      emoji: String(i.emoji ?? "").slice(0,4),
+      pinned: !!i.pinned,
+      newTab: i.newTab !== false,
+      links: (Array.isArray(i.links) ? i.links : [])
+        .filter(l => l && (l.label || l.url))
+        .slice(0,8)
+        .map(l => ({ label: String(l.label || "Link").slice(0,40), url: safeUrl(l.url, true) })),
+      opens: Number.isFinite(+i.opens) ? Math.max(0, +i.opens) : 0,
+      last: Number.isFinite(+i.last) ? +i.last : 0
+    }));
+  return out;
+}
+
+/* Only http(s) survives. A stored "javascript:" would otherwise become a
+   click-to-run script the moment it were rendered into an href. Relative
+   paths are allowed for sub-links so "/hub" can hang off a parent URL. */
+function safeUrl(v, allowRelative){
+  const s = String(v ?? "").trim();
+  if (!s) return "";
+  if (allowRelative && s.startsWith("/")) return s;
+  const withScheme = /^[a-z][a-z0-9+.-]*:/i.test(s) ? s : "https://" + s;
+  try {
+    const u = new URL(withScheme);
+    return (u.protocol === "http:" || u.protocol === "https:") ? u.href : "";
+  } catch { return ""; }
+}
+
+function save(){
+  try { localStorage.setItem(KEY, JSON.stringify(db)); }
+  catch { toast("Couldn't save — this browser's storage is full or blocked"); }
+}
+
+const catName = id => db.categories.find(c => c.id === id)?.name ?? "Unsorted";
+
+/* A sub-link may be relative ("/hub"); resolve it against its parent. */
+function resolveLink(item, l){
+  if (!l.url) return item.url;
+  if (l.url.startsWith("/")) {
+    if (!item.url) return "";
+    try { return new URL(l.url, item.url).href; } catch { return ""; }
+  }
+  return l.url;
+}
+
+const host = u => { try { return new URL(u).host.replace(/^www\./, "") + (new URL(u).pathname === "/" ? "" : new URL(u).pathname); } catch { return u; } };
+const esc  = s => String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+
+/* ---------- open ------------------------------------------------- */
+function open(item, url){
+  const target = url ?? item.url;
+  if (!target) { editor(item.id); return; }     // unset URL: teach, don't dead-end
+  item.opens++; item.last = Date.now(); save();
+  if (item.newTab) window.open(target, "_blank", "noopener");
+  else location.href = target;
+}
+
+/* ---------- render ----------------------------------------------- */
+const board = document.getElementById("board");
+const qEl   = document.getElementById("q");
+let sel = 0;   // highlighted row index in search mode
+
+function render(){
+  const q = qEl.value.trim();
+  renderBanner();
+  if (q) renderResults(q); else renderBoard();
+}
+
+function renderBanner(){
+  const el = document.getElementById("banner");
+  const n = db.items.filter(i => !i.url).length;
+  if (!n || sessionStorage.getItem("hub_banner_off")) { el.innerHTML = ""; return; }
+  el.innerHTML =
+    '<div class="banner"><span class="dot"></span>' +
+    '<span><b style="font-weight:600;color:var(--text)">' + n + ' destination' + (n>1?'s':'') + ' still need' + (n>1?'':'s') + ' a URL.</b> ' +
+    'Click one and paste where it actually lives.</span>' +
+    '<button class="x" id="bx" aria-label="Dismiss">✕</button></div>';
+  document.getElementById("bx").onclick = () => { sessionStorage.setItem("hub_banner_off","1"); renderBanner(); };
+}
+
+function renderBoard(){
+  document.getElementById("heroline").textContent = "Where are we going?";
+  const pins = db.items.filter(i => i.pinned);
+  let html = "";
+
+  // Pinning promotes a card out of its section rather than copying it there.
+  // Showing it twice on a board this size reads as clutter, and a duplicate
+  // makes the 1–9 launch keys ambiguous about which card they belong to.
+  if (pins.length) html += section("Pinned", pins, { pinned:true });
+
+  for (const c of db.categories){
+    const rows = db.items.filter(i => i.cat === c.id && !i.pinned);
+    if (rows.length) html += section(c.name, rows, { cat:c.id });
+  }
+
+  if (!db.items.length) {
+    html = '<div class="empty"><b>Nothing here yet.</b>Hit <strong>Add</strong>, or paste a URL into the search box.</div>';
+  }
+  board.innerHTML = html;
+  wireBoard();
+}
+
+function section(title, rows, opt){
+  const key = opt.pinned ? "pinned" : opt.cat;
+  return (
+    '<section data-sec="' + esc(key) + '">' +
+      '<div class="sechead">' +
+        '<span class="sectitle">' + esc(title) + '</span>' +
+        '<span class="seccount">' + rows.length + '</span>' +
+        '<span class="secline"></span>' +
+        (opt.pinned ? "" : '<button class="secact" data-addto="' + esc(opt.cat) + '">+ Add here</button>') +
+      '</div>' +
+      '<div class="grid' + (opt.pinned ? " pinned" : "") + '">' +
+        rows.map((i, n) => card(i, opt.pinned ? n : -1, key)).join("") +
+      '</div>' +
+    '</section>'
+  );
+}
+
+function card(i, pinIndex, secKey){
+  const tile = i.emoji
+    ? '<span class="tile emoji">' + esc(i.emoji) + '</span>'
+    : '<span class="tile" style="--accent:var(--a-' + i.accent + ')">' + esc(monogram(i.name)) + '</span>';
+
+  const foot = i.url
+    ? '<div class="cardhost">' + esc(host(i.url)) + '</div>'
+    : '<div class="needsurl">⚠ Set the URL</div>';
+
+  const subs = i.links.length
+    ? '<div class="sublinks">' + i.links.map((l, n) =>
+        '<button class="sublink" data-sub="' + n + '">' + esc(l.label) + '</button>').join("") + '</div>'
+    : "";
+
+  return (
+    '<article class="card" data-id="' + i.id + '" data-sec="' + esc(secKey) + '" draggable="true" style="--accent:var(--a-' + i.accent + ')">' +
+      '<div class="cardtools">' +
+        '<button class="tool grabber" title="Drag to reorder" aria-hidden="true" tabindex="-1">' +
+          '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg></button>' +
+        '<button class="tool pin' + (i.pinned ? " starred on" : "") + '" data-act="pin" title="' + (i.pinned ? "Unpin" : "Pin to the top") + '" aria-label="' + (i.pinned ? "Unpin" : "Pin") + '">' +
+          '<svg viewBox="0 0 24 24" fill="' + (i.pinned ? "currentColor" : "none") + '" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="m12 3.6 2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.5 9.8l5.9-.9Z"/></svg></button>' +
+        '<button class="tool" data-act="edit" title="Edit" aria-label="Edit">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9a2.1 2.1 0 0 0-3-3L5 17Z"/></svg></button>' +
+        '<button class="tool del" data-act="del" title="Delete" aria-label="Delete">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 7h14M10 7V5h4v2M8 7l1 13h6l1-13"/></svg></button>' +
+      '</div>' +
+
+      '<button class="cardmain" data-act="open">' +
+        tile +
+        '<span class="cardtext">' +
+          '<span class="cardname"><span class="nm">' + esc(i.name) + '</span>' +
+            (pinIndex > -1 && pinIndex < 9 ? '<span class="numkey">' + (pinIndex + 1) + '</span>' : "") +
+          '</span>' +
+          (i.note ? '<span class="cardnote">' + esc(i.note) + '</span>' : "") +
+          foot +
+        '</span>' +
+      '</button>' +
+      subs +
+    '</article>'
+  );
+}
+
+function monogram(name){
+  const w = name.replace(/[^\w\s]/g, " ").trim().split(/\s+/).filter(Boolean);
+  if (!w.length) return "•";
+  return (w.length === 1 ? w[0].slice(0,2) : w[0][0] + w[1][0]).toUpperCase();
+}
+
+/* ---------- search ----------------------------------------------- */
+/* Ranked, not just filtered: a prefix hit on the name should beat the
+   same word buried in a note, or the list is useless for ↵-to-open. */
+function score(i, q){
+  const n = i.name.toLowerCase(), note = (i.note||"").toLowerCase();
+  const u = (i.url||"").toLowerCase(), c = catName(i.cat).toLowerCase();
+  const subs = i.links.map(l => l.label.toLowerCase()).join(" ");
+  let s = -1;
+  if (n.startsWith(q)) s = 100;
+  else if (n.includes(q)) s = 70;
+  else if (initials(i.name).startsWith(q)) s = 65;   // "srh" → Sales Rep Hub
+  else if (c.includes(q)) s = 40;
+  else if (subs.includes(q)) s = 35;
+  else if (note.includes(q)) s = 25;
+  else if (u.includes(q)) s = 20;
+  if (s < 0) return -1;
+  if (i.pinned) s += 6;
+  return s + Math.min(i.opens, 12) * 0.6;           // habit nudges, never decides
+}
+const initials = n => n.split(/\s+/).filter(Boolean).map(w => w[0]?.toLowerCase() ?? "").join("");
+
+let rows = [];   // what ↑ ↓ ↵ act on
+
+function renderResults(raw){
+  const q = raw.toLowerCase();
+  document.getElementById("heroline").textContent = "Where are we going?";
+
+  const hits = db.items
+    .map(i => ({ i, s: score(i, q) }))
+    .filter(r => r.s >= 0)
+    .sort((a,b) => b.s - a.s || a.i.name.localeCompare(b.i.name));
+
+  rows = hits.map(r => ({ kind:"item", item:r.i }));
+
+  // Sub-links surface on their own once you type toward them.
+  for (const { i } of hits.slice(0,4))
+    for (const l of i.links)
+      if (l.label.toLowerCase().includes(q)) rows.push({ kind:"sub", item:i, link:l });
+
+  const pasted = safeUrl(raw.trim());
+  const looksLikeUrl = /^https?:\/\//i.test(raw.trim()) || /^[\w-]+(\.[\w-]+)+(\/|$)/.test(raw.trim());
+  if (pasted && looksLikeUrl) rows.unshift({ kind:"new", url:pasted });
+
+  if (!rows.length){
+    board.innerHTML =
+      '<div class="empty"><b>Nothing matches “' + esc(raw) + '”.</b>' +
+      'Press <kbd>↵</kbd> on a pasted URL to add it, or hit <strong>Add</strong>.</div>';
+    return;
+  }
+
+  sel = Math.min(sel, rows.length - 1);
+  board.innerHTML = '<div class="results" role="listbox">' + rows.map((r, n) => {
+    if (r.kind === "new")
+      return resRow(n, '<span class="tile" style="--accent:var(--a-green)">+</span>',
+        "Add " + esc(host(r.url)), "New destination · " + esc(r.url), "add");
+    const i = r.item;
+    const tile = i.emoji
+      ? '<span class="tile emoji">' + esc(i.emoji) + '</span>'
+      : '<span class="tile" style="--accent:var(--a-' + i.accent + ')">' + esc(monogram(i.name)) + '</span>';
+    if (r.kind === "sub")
+      return resRow(n, tile, esc(i.name) + " → " + hi(r.link.label, q),
+        esc(host(resolveLink(i, r.link) || i.url || "")), "open");
+    return resRow(n, tile, hi(i.name, q),
+      esc(catName(i.cat)) + (i.url ? " · " + esc(host(i.url)) : " · needs a URL"), i.url ? "open" : "set URL");
+  }).join("") + '</div>';
+
+  wireResults();
+}
+
+function resRow(n, tile, name, sub, go){
+  return '<button class="res' + (n === sel ? " sel" : "") + '" data-n="' + n + '" role="option" aria-selected="' + (n === sel) + '">' +
+    tile + '<span class="restext"><span class="resname">' + name + '</span><span class="ressub">' + sub + '</span></span>' +
+    '<span class="resgo">' + (n === sel ? "↵ " : "") + go + '</span></button>';
+}
+
+function hi(text, q){
+  const n = text.toLowerCase().indexOf(q);
+  if (n < 0) return esc(text);
+  return esc(text.slice(0,n)) + "<mark>" + esc(text.slice(n, n+q.length)) + "</mark>" + esc(text.slice(n+q.length));
+}
+
+function fire(n){
+  const r = rows[n]; if (!r) return;
+  if (r.kind === "new"){ qEl.value = ""; editor(null, { url:r.url, name:guessName(r.url) }); return; }
+  if (r.kind === "sub"){ open(r.item, resolveLink(r.item, r.link)); return; }
+  open(r.item);
+}
+function guessName(u){
+  try {
+    const h = new URL(u).host.replace(/^www\./,"").split(".")[0];
+    return h.replace(/[-_]/g," ").replace(/\b\w/g, m => m.toUpperCase());
+  } catch { return ""; }
+}
+
+/* ---------- wiring ----------------------------------------------- */
+function wireResults(){
+  board.querySelectorAll(".res").forEach(el => {
+    el.onclick = () => fire(+el.dataset.n);
+    el.onmouseenter = () => {
+      sel = +el.dataset.n;
+      board.querySelectorAll(".res").forEach(x => x.classList.toggle("sel", x === el));
+    };
+  });
+}
+
+function wireBoard(){
+  board.querySelectorAll("[data-addto]").forEach(b => b.onclick = () => editor(null, { cat:b.dataset.addto }));
+
+  board.querySelectorAll(".card").forEach(el => {
+    const id = el.dataset.id;
+    const item = db.items.find(i => i.id === id);
+    if (!item) return;
+
+    el.querySelector('[data-act="open"]').onclick = () => open(item);
+    el.querySelectorAll("[data-sub]").forEach(b =>
+      b.onclick = () => { const l = item.links[+b.dataset.sub]; if (l) open(item, resolveLink(item, l)); });
+
+    el.querySelector('[data-act="pin"]').onclick = () => { item.pinned = !item.pinned; save(); render(); };
+    el.querySelector('[data-act="edit"]').onclick = () => editor(id);
+    el.querySelector('[data-act="del"]').onclick = () => {
+      if (!confirm("Remove “" + item.name + "” from the hub?")) return;
+      db.items = db.items.filter(i => i.id !== id); save(); render(); toast("Removed");
+    };
+  });
+
+  wireDrag();
+}
+
+/* Drag to reorder, within one section only — dropping a card into another
+   section would silently recategorise it, which is what the editor is for. */
+function wireDrag(){
+  let dragId = null;
+  board.querySelectorAll(".card").forEach(el => {
+    el.addEventListener("dragstart", e => {
+      dragId = el.dataset.id; el.classList.add("dragging");
+      e.dataTransfer.effectAllowed = "move";
+      try { e.dataTransfer.setData("text/plain", dragId); } catch {}
+    });
+    el.addEventListener("dragend", () => {
+      dragId = null; el.classList.remove("dragging");
+      board.querySelectorAll(".dropbefore").forEach(x => x.classList.remove("dropbefore"));
+    });
+    el.addEventListener("dragover", e => {
+      if (!dragId || el.dataset.id === dragId) return;
+      const from = board.querySelector('.card[data-id="' + dragId + '"]');
+      if (!from || from.dataset.sec !== el.dataset.sec) return;   // same section only
+      e.preventDefault();
+      board.querySelectorAll(".dropbefore").forEach(x => x.classList.remove("dropbefore"));
+      el.classList.add("dropbefore");
+    });
+    el.addEventListener("drop", e => {
+      if (!dragId || el.dataset.id === dragId) return;
+      const from = board.querySelector('.card[data-id="' + dragId + '"]');
+      if (!from || from.dataset.sec !== el.dataset.sec) return;
+      e.preventDefault();
+      const a = db.items.findIndex(i => i.id === dragId);
+      const b = db.items.findIndex(i => i.id === el.dataset.id);
+      if (a < 0 || b < 0) return;
+      const [moved] = db.items.splice(a, 1);
+      db.items.splice(db.items.findIndex(i => i.id === el.dataset.id), 0, moved);
+      save(); render();
+    });
+  });
+}
+
+/* ---------- editor ----------------------------------------------- */
+const scrim = document.getElementById("scrim");
+
+function closeModal(){ scrim.hidden = true; scrim.innerHTML = ""; }
+scrim.addEventListener("click", e => { if (e.target === scrim) closeModal(); });
+
+function editor(id, seed){
+  const isNew = !id;
+  const it = isNew
+    ? { id:uid(), name:seed?.name ?? "", url:seed?.url ?? "", note:"", cat:seed?.cat ?? db.categories[0]?.id ?? "",
+        accent:ACCENTS[db.items.length % ACCENTS.length], emoji:"", pinned:false, newTab:true, links:[], opens:0, last:0 }
+    : clone(db.items.find(i => i.id === id));
+  if (!it) return;
+
+  scrim.hidden = false;
+  scrim.innerHTML =
+    '<form class="modal" id="ed">' +
+      '<h2>' + (isNew ? "Add a destination" : "Edit destination") + '</h2>' +
+      '<p class="sub">' + (isNew ? "Anything you can reach by URL belongs here." : "Changes save to this browser straight away.") + '</p>' +
+
+      '<div class="field"><label for="fN">Name</label>' +
+        '<input id="fN" required maxlength="80" placeholder="Sales Rep Hub" value="' + esc(it.name) + '"></div>' +
+
+      '<div class="field"><label for="fU">URL</label>' +
+        '<input id="fU" type="text" inputmode="url" placeholder="https://…" value="' + esc(it.url) + '">' +
+        '<p class="hint">Leave it empty if you haven\'t deployed yet — the card will nag you until you fill it in.</p></div>' +
+
+      '<div class="field"><label for="fD">What it\'s for</label>' +
+        '<textarea id="fD" maxlength="220" placeholder="One line so future-you remembers why this exists.">' + esc(it.note) + '</textarea></div>' +
+
+      '<div class="row2">' +
+        '<div class="field"><label for="fC">Section</label><select id="fC">' +
+          db.categories.map(c => '<option value="' + esc(c.id) + '"' + (c.id === it.cat ? " selected" : "") + '>' + esc(c.name) + '</option>').join("") +
+          '<option value="__new">+ New section…</option></select></div>' +
+        '<div class="field"><label for="fE">Icon <span style="text-transform:none;font-weight:400">(emoji, optional)</span></label>' +
+          '<input id="fE" maxlength="4" placeholder="e.g. 🎯" value="' + esc(it.emoji) + '"></div>' +
+      '</div>' +
+
+      '<div class="field"><label>Colour</label><div class="swatches" id="fSw">' +
+        ACCENTS.map(a => '<button type="button" class="sw" data-a="' + a + '" style="--c:var(--a-' + a + ')" ' +
+          'aria-pressed="' + (a === it.accent) + '" aria-label="' + a + '"></button>').join("") +
+      '</div></div>' +
+
+      '<div class="field"><label>Quick links inside it</label><div id="fL"></div>' +
+        '<button type="button" class="btn" id="fAddL" style="height:31px;font-size:12.5px;padding:0 11px">+ Add a quick link</button>' +
+        '<p class="hint">A path like <code>/hub</code> hangs off the URL above. Full URLs work too.</p></div>' +
+
+      '<div class="field" style="display:flex;gap:16px;flex-wrap:wrap">' +
+        '<label style="display:flex;gap:7px;align-items:center;text-transform:none;letter-spacing:0;font-size:13.5px;font-weight:500;color:var(--text-dim)">' +
+          '<input type="checkbox" id="fT" style="width:auto"' + (it.newTab ? " checked" : "") + '> Open in a new tab</label>' +
+        '<label style="display:flex;gap:7px;align-items:center;text-transform:none;letter-spacing:0;font-size:13.5px;font-weight:500;color:var(--text-dim)">' +
+          '<input type="checkbox" id="fP" style="width:auto"' + (it.pinned ? " checked" : "") + '> Pin to the top</label>' +
+      '</div>' +
+
+      '<div class="modalfoot">' +
+        (isNew ? "" : '<button type="button" class="btn ghostdel" id="fDel">Delete</button>') +
+        '<span class="spacer"></span>' +
+        '<button type="button" class="btn" id="fX">Cancel</button>' +
+        '<button type="submit" class="btn go">' + (isNew ? "Add it" : "Save") + '</button>' +
+      '</div>' +
+    '</form>';
+
+  const links = clone(it.links);
+  const linkBox = document.getElementById("fL");
+  const drawLinks = () => {
+    linkBox.innerHTML = links.map((l, n) =>
+      '<div class="sublinkedit">' +
+        '<input class="lbl" data-n="' + n + '" data-k="label" placeholder="Label" value="' + esc(l.label) + '">' +
+        '<input data-n="' + n + '" data-k="url" placeholder="/path or https://…" value="' + esc(l.url) + '">' +
+        '<button type="button" class="tool del" data-rm="' + n + '" aria-label="Remove link">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>' +
+      '</div>').join("");
+    linkBox.querySelectorAll("input").forEach(inp =>
+      inp.oninput = () => { links[+inp.dataset.n][inp.dataset.k] = inp.value; });
+    linkBox.querySelectorAll("[data-rm]").forEach(b =>
+      b.onclick = () => { links.splice(+b.dataset.rm, 1); drawLinks(); });
+  };
+  drawLinks();
+  document.getElementById("fAddL").onclick = () => {
+    if (links.length >= 8) return toast("Eight quick links is plenty");
+    links.push({ label:"", url:"" }); drawLinks();
+    linkBox.querySelector(".sublinkedit:last-child input")?.focus();
+  };
+
+  let accent = it.accent;
+  document.getElementById("fSw").onclick = e => {
+    const b = e.target.closest(".sw"); if (!b) return;
+    accent = b.dataset.a;
+    document.getElementById("fSw").querySelectorAll(".sw").forEach(x => x.setAttribute("aria-pressed", x === b));
+  };
+
+  // "+ New section…" creates it inline rather than sending you to another screen.
+  const catSel = document.getElementById("fC");
+  catSel.onchange = () => {
+    if (catSel.value !== "__new") return;
+    const name = prompt("Name the new section")?.trim();
+    if (!name) { catSel.value = it.cat || db.categories[0].id; return; }
+    const c = { id:uid(), name:name.slice(0,40) };
+    db.categories.push(c); save();
+    catSel.insertBefore(new Option(c.name, c.id, false, true), catSel.lastElementChild);
+    catSel.value = c.id;
+  };
+
+  document.getElementById("fX").onclick = closeModal;
+  document.getElementById("fDel")?.addEventListener("click", () => {
+    if (!confirm("Remove “" + it.name + "” from the hub?")) return;
+    db.items = db.items.filter(i => i.id !== id);
+    save(); closeModal(); render(); toast("Removed");
+  });
+
+  document.getElementById("ed").onsubmit = e => {
+    e.preventDefault();
+    const name = document.getElementById("fN").value.trim();
+    if (!name) return;
+    const next = {
+      ...it,
+      name,
+      url: safeUrl(document.getElementById("fU").value),
+      note: document.getElementById("fD").value.trim(),
+      cat: catSel.value === "__new" ? it.cat : catSel.value,
+      emoji: document.getElementById("fE").value.trim(),
+      accent,
+      newTab: document.getElementById("fT").checked,
+      pinned: document.getElementById("fP").checked,
+      links: links.filter(l => l.url.trim()).map(l => ({
+        label: l.label.trim() || "Open",
+        url: safeUrl(l.url, true)
+      })).filter(l => l.url)
+    };
+    const at = db.items.findIndex(i => i.id === it.id);
+    if (at < 0) db.items.push(next); else db.items[at] = next;
+    save(); closeModal(); qEl.value = ""; render();
+    toast(at < 0 ? "Added to the hub" : "Saved");
+  };
+
+  setTimeout(() => document.getElementById(it.name ? "fU" : "fN").focus(), 30);
+}
+
+/* ---------- sections manager -------------------------------------- */
+function sectionsModal(){
+  scrim.hidden = false;
+  const draw = () => {
+    scrim.innerHTML =
+      '<div class="modal"><h2>Sections</h2><p class="sub">Rename or remove. Removing one moves its cards to the first section.</p>' +
+      '<div id="cl">' + db.categories.map(c =>
+        '<div class="sublinkedit"><input data-id="' + esc(c.id) + '" value="' + esc(c.name) + '">' +
+        '<span style="font-family:var(--font-mono);font-size:11px;color:var(--text-faint);min-width:52px;text-align:right">' +
+          db.items.filter(i => i.cat === c.id).length + ' card' + (db.items.filter(i => i.cat === c.id).length === 1 ? "" : "s") + '</span>' +
+        (db.categories.length > 1
+          ? '<button type="button" class="tool del" data-rm="' + esc(c.id) + '" aria-label="Remove section">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>'
+          : "") +
+        '</div>').join("") + '</div>' +
+      '<button type="button" class="btn" id="cAdd" style="height:31px;font-size:12.5px;padding:0 11px;margin-top:4px">+ New section</button>' +
+      '<div class="modalfoot"><span class="spacer"></span><button class="btn go" id="cDone">Done</button></div></div>';
+
+    scrim.querySelectorAll("#cl input").forEach(inp => inp.oninput = () => {
+      const c = db.categories.find(x => x.id === inp.dataset.id);
+      if (c) { c.name = inp.value.slice(0,40); save(); }
+    });
+    scrim.querySelectorAll("[data-rm]").forEach(b => b.onclick = () => {
+      const id = b.dataset.rm;
+      db.categories = db.categories.filter(c => c.id !== id);
+      const fallback = db.categories[0].id;
+      db.items.forEach(i => { if (i.cat === id) i.cat = fallback; });
+      save(); draw(); render();
+    });
+    document.getElementById("cAdd").onclick = () => {
+      const n = prompt("Name the new section")?.trim();
+      if (!n) return;
+      db.categories.push({ id:uid(), name:n.slice(0,40) }); save(); draw(); render();
+    };
+    document.getElementById("cDone").onclick = () => { closeModal(); render(); };
+  };
+  draw();
+}
+
+/* ---------- menu: backup, import, reset --------------------------- */
+const menu = document.getElementById("menu"), menuBtn = document.getElementById("menuBtn");
+function setMenu(on){ menu.hidden = !on; menuBtn.setAttribute("aria-expanded", String(on)); }
+menuBtn.onclick = e => { e.stopPropagation(); setMenu(menu.hidden); };
+document.addEventListener("click", () => setMenu(false));
+menu.addEventListener("click", e => e.stopPropagation());
+
+document.getElementById("mExport").onclick = () => {
+  const blob = new Blob([JSON.stringify(db, null, 2)], { type:"application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "leveraged-hub-" + new Date().toISOString().slice(0,10) + ".json";
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  setMenu(false); toast("Backup downloaded");
+};
+document.getElementById("mCopy").onclick = async () => {
+  try { await navigator.clipboard.writeText(JSON.stringify(db, null, 2)); toast("Copied as JSON"); }
+  catch { toast("Clipboard blocked — use Export instead"); }
+  setMenu(false);
+};
+const fileIn = document.getElementById("fileIn");
+document.getElementById("mImport").onclick = () => { setMenu(false); fileIn.click(); };
+fileIn.onchange = () => {
+  const f = fileIn.files?.[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      const inc = normalise(JSON.parse(String(r.result)));
+      if (!confirm("Replace the " + db.items.length + " destination(s) here with the " + inc.items.length + " in this file?")) return;
+      db = inc; save(); render(); toast("Imported " + inc.items.length + " destinations");
+    } catch { toast("That file isn't a hub backup"); }
+  };
+  r.readAsText(f);
+  fileIn.value = "";
+};
+document.getElementById("mReset").onclick = () => {
+  setMenu(false);
+  if (!confirm("Throw away everything here and go back to the starter set?")) return;
+  db = starter(); save(); render(); toast("Back to the starter set");
+};
+document.getElementById("mCats").onclick = () => { setMenu(false); sectionsModal(); };
+document.getElementById("addBtn").onclick = () => editor(null);
+
+/* ---------- keyboard ---------------------------------------------- */
+/* The search box owns the keyboard: this is a launcher, so ↵ has to open
+   something without ever asking you to reach for the mouse. */
+qEl.addEventListener("input", () => { sel = 0; render(); });
+
+qEl.addEventListener("keydown", e => {
+  if (!rows.length) return;
+  if (e.key === "ArrowDown"){ e.preventDefault(); sel = (sel + 1) % rows.length; renderResults(qEl.value.trim()); }
+  else if (e.key === "ArrowUp"){ e.preventDefault(); sel = (sel - 1 + rows.length) % rows.length; renderResults(qEl.value.trim()); }
+  else if (e.key === "Enter"){ e.preventDefault(); fire(sel); }
+});
+
+document.addEventListener("keydown", e => {
+  const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName);
+
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k"){
+    e.preventDefault(); qEl.focus(); qEl.select(); return;
+  }
+  if (e.key === "Escape"){
+    if (!scrim.hidden) { closeModal(); return; }
+    if (!menu.hidden) { setMenu(false); return; }
+    if (qEl.value) { qEl.value = ""; render(); } else qEl.blur();
+    return;
+  }
+  // An open modal owns the keyboard. Without this, clicking the modal's own
+  // background moves focus off the inputs and a stray "2" launches whatever is
+  // pinned second — in a new tab, behind the dialog you were still filling in.
+  if (!scrim.hidden) return;
+
+  if (typing || e.metaKey || e.ctrlKey || e.altKey) return;
+
+  if (e.key === "/"){ e.preventDefault(); qEl.focus(); return; }
+  if (e.key.toLowerCase() === "n"){ e.preventDefault(); editor(null); return; }
+
+  // 1–9 launch the pinned row, in the order shown on the cards.
+  if (/^[1-9]$/.test(e.key)){
+    const pins = db.items.filter(i => i.pinned);
+    const target = pins[+e.key - 1];
+    if (target){ e.preventDefault(); open(target); }
+  }
+});
+
+/* ---------- greeting + toast -------------------------------------- */
+(function greet(){
+  const h = new Date().getHours();
+  const part = h < 5 ? "Late night" : h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening";
+  document.getElementById("greeting").textContent =
+    part + " · " + new Date().toLocaleDateString(undefined, { weekday:"long", month:"long", day:"numeric" });
+})();
+
+let toastT;
+function toast(msg){
+  const el = document.getElementById("toast");
+  el.textContent = msg; el.classList.add("on");
+  clearTimeout(toastT);
+  toastT = setTimeout(() => el.classList.remove("on"), 2200);
+}
+
+render();
+qEl.focus();
+})();
+</script>
