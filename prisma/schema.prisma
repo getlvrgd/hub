@@ -1,0 +1,77 @@
+// Leveraged Hub schema.
+//
+// Two shapes, deliberately different, because they are used differently:
+//
+//   * The board — sections and destinations — is one JSON document per user. It is
+//     only ever read and written whole, by one person, and every interaction
+//     (reorder, collapse, move a card between sections) rewrites the arrangement
+//     rather than one row. Keeping it as a document means the shape in
+//     src/lib/board.ts can gain a field without a migration. Same call the Sales
+//     Rep Hub makes for its hub content, for the same reasons.
+//
+//   * Revenue is rows. It only grows, it gets aggregated by month and by offer, and
+//     "what did we book in March" should be a SQL question, not a JSON scan.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// Someone who can sign in. Built for one owner; the role column is here so adding a
+/// read-only viewer later is a row, not a migration.
+model User {
+  id String @id @default(cuid())
+
+  email        String  @unique
+  name         String
+  passwordHash String
+  /// OWNER | VIEWER
+  role         String  @default("OWNER")
+  isActive     Boolean @default(true)
+
+  /// Bumped to sign every session out everywhere — a password change, or the
+  /// "Sign out other devices" button. Tokens carry it and are rejected once stale.
+  sessionEpoch Int @default(0)
+
+  board    Board?
+  revenue  RevenueEntry[]
+
+  createdAt DateTime @default(now())
+}
+
+/// One person's arrangement of the hub: sections and destinations, shaped by
+/// BoardDoc in src/lib/board.ts.
+model Board {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  data Json
+
+  updatedAt DateTime @updatedAt
+}
+
+/// Money the agency has brought in. One row per deal or payment.
+model RevenueEntry {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  /// Who it came from — the client or the deal.
+  client String
+  /// Which offer it belongs to. Free text so a new offer needs no setup.
+  offer  String?
+  /// Stored in whole cents. Floats lose money at the fourth deal.
+  amountCents Int
+  /// The day it landed, not the day it was typed in — backfilling history is normal.
+  occurredAt  DateTime
+  note        String?
+
+  createdAt DateTime @default(now())
+
+  @@index([userId, occurredAt])
+}

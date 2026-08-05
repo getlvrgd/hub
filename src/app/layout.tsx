@@ -1,0 +1,52 @@
+import type { Metadata, Viewport } from "next";
+
+import "./globals.css";
+
+export const metadata: Metadata = {
+  title: "Hub · LVRGD",
+  description: "One front door for every LVRGD dashboard, hub and tool.",
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon-black.png", media: "(prefers-color-scheme: light)" },
+      { url: "/favicon-white.png", media: "(prefers-color-scheme: dark)" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
+  appleWebApp: { capable: true, title: "Hub" },
+  robots: { index: false, follow: false },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f4f6fa" },
+    { media: "(prefers-color-scheme: dark)", color: "#070a12" },
+  ],
+};
+
+/**
+ * Applies the stored theme before first paint.
+ *
+ * Without this the server, which cannot know the preference, renders light and a
+ * dark-mode user gets a white flash on every navigation. Inline and synchronous on
+ * purpose — it has to run before the body is painted.
+ */
+const THEME_SCRIPT = `
+try {
+  var t = localStorage.getItem("hub:theme");
+  if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+} catch (e) {}
+`;
+
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
+      <body>{children}</body>
+    </html>
+  );
+}
