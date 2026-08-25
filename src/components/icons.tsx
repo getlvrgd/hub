@@ -118,10 +118,3 @@ export const IconExit = (p: P) => (
     <path d="M15 8.5 19 12l-4 3.5M19 12H10" />
   </svg>
 );
-
-export const IconCash = (p: P) => (
-  <svg {...base} {...p}>
-    <rect x="3" y="6" width="18" height="12" rx="2.2" />
-    <circle cx="12" cy="12" r="2.6" />
-  </svg>
-);

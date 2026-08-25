@@ -14,7 +14,6 @@ import {
 } from "@/lib/auth";
 import { normaliseBoard, starterBoard, type BoardDoc } from "@/lib/board";
 import { prisma } from "@/lib/db";
-import { fromDateInput, parseAmountToCents } from "@/lib/money";
 
 export type FormState = { error?: string; ok?: boolean };
 
@@ -207,48 +206,5 @@ export async function recordOpen(destinationId: string) {
     where: { userId: session.userId },
     data: { data: doc as unknown as object },
   });
-  return { ok: true as const };
-}
-
-/* --------------------------------------------------------------- revenue */
-
-export async function addRevenue(
-  _prev: FormState,
-  formData: FormData,
-): Promise<FormState> {
-  const session = await requireOwner();
-
-  const client = String(formData.get("client") ?? "").trim();
-  const offer = String(formData.get("offer") ?? "").trim();
-  const note = String(formData.get("note") ?? "").trim();
-  const cents = parseAmountToCents(String(formData.get("amount") ?? ""));
-  const when = fromDateInput(String(formData.get("occurredAt") ?? ""));
-
-  if (!client) return { error: "Who was it from?" };
-  if (cents === null) return { error: "That amount doesn't look like a number." };
-  if (cents === 0) return { error: "An amount of zero won't tell you much." };
-  if (!when) return { error: "Pick a date." };
-
-  await prisma.revenueEntry.create({
-    data: {
-      userId: session.userId,
-      client: client.slice(0, 120),
-      offer: offer ? offer.slice(0, 80) : null,
-      note: note ? note.slice(0, 300) : null,
-      amountCents: cents,
-      occurredAt: when,
-    },
-  });
-
-  revalidatePath("/");
-  return { ok: true };
-}
-
-export async function deleteRevenue(id: string) {
-  const session = await requireOwner();
-  // Scoped by userId as well as id, so a guessed id from another account is a no-op
-  // rather than a delete.
-  await prisma.revenueEntry.deleteMany({ where: { id, userId: session.userId } });
-  revalidatePath("/");
   return { ok: true as const };
 }

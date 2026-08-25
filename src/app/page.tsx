@@ -4,7 +4,6 @@ import { Hub } from "@/components/Hub";
 import { getSession, hasAnyUser } from "@/lib/auth";
 import { normaliseBoard, starterBoard } from "@/lib/board";
 import { prisma } from "@/lib/db";
-import { summariseRevenue } from "@/lib/revenue";
 
 export const dynamic = "force-dynamic";
 
@@ -19,17 +18,5 @@ export default async function HomePage() {
   const row = await prisma.board.findUnique({ where: { userId: session.userId } });
   const board = row ? normaliseBoard(row.data) : starterBoard();
 
-  const entries = await prisma.revenueEntry.findMany({
-    where: { userId: session.userId },
-    orderBy: [{ occurredAt: "desc" }, { createdAt: "desc" }],
-    take: 500,
-  });
-
-  return (
-    <Hub
-      session={session}
-      board={board}
-      revenue={summariseRevenue(entries)}
-    />
-  );
+  return <Hub session={session} board={board} />;
 }

@@ -14,17 +14,14 @@ import {
   type Destination,
 } from "@/lib/board";
 import type { Session } from "@/lib/auth";
-import type { RevenueSummary } from "@/lib/revenue";
 
 import { AccountModal } from "./AccountModal";
 import { DestinationEditor } from "./DestinationEditor";
 import { Logo } from "./Logo";
-import { RevenuePanel } from "./RevenuePanel";
 import { SectionsModal } from "./SectionsModal";
 import { ThemeToggle } from "./ThemeToggle";
 import { useToast } from "./Toast";
 import {
-  IconCash,
   IconChevron,
   IconDots,
   IconDownload,
@@ -50,11 +47,9 @@ type Row =
 export function Hub({
   session,
   board,
-  revenue,
 }: {
   session: Session;
   board: BoardDoc;
-  revenue: RevenueSummary;
 }) {
   const router = useRouter();
   const { toast, toastNode } = useToast();
@@ -65,7 +60,6 @@ export function Hub({
   const [editing, setEditing] = useState<{ id?: string; seed?: Partial<Destination> } | null>(null);
   const [showSections, setShowSections] = useState(false);
   const [showAccount, setShowAccount] = useState(false);
-  const [showRevenue, setShowRevenue] = useState(revenue.count > 0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [dragId, setDragId] = useState<string | null>(null);
   const [dropSection, setDropSection] = useState<string | null>(null);
@@ -404,15 +398,6 @@ export function Hub({
         </div>
         <span className="spacer" />
 
-        <button
-          className="iconbtn"
-          onClick={() => setShowRevenue((v) => !v)}
-          title="Agency revenue"
-          aria-pressed={showRevenue}
-        >
-          <IconCash />
-        </button>
-
         <ThemeToggle />
 
         <div className="menuwrap">
@@ -520,8 +505,6 @@ export function Hub({
           <SearchResults rows={rows} sel={sel} setSel={setSel} fire={fire} q={q} doc={doc} />
         ) : (
           <>
-            {showRevenue ? <RevenuePanel revenue={revenue} toast={toast} /> : null}
-
             {pins.length ? (
               <BoardSection
                 id={PINNED}
